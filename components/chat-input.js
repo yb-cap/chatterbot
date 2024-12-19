@@ -39,15 +39,15 @@ export default function ChatInput() {
   };
 
   return (
-    <div className="w-full max-w-2xl p-6 bg-white shadow rounded relative">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Chat with the Chatterbot</h1>
+    <div className="fixed bottom-4 left-4 right-4 md:static md:w-full md:max-w-2xl p-4 bg-white shadow rounded">
+      <h1 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">Chat with the Chatterbot</h1>
       <textarea
-        className="w-full border p-4 rounded mb-4 min-h-[120px] resize-y text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+        className="w-full border p-3 rounded mb-4 min-h-[80px] resize-y text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500 outline-none"
         placeholder="Type your message..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleKeyPress}
-        rows={10}
+        rows={3}
       ></textarea>
       <button
         className="w-full bg-blue-600 text-white p-3 rounded disabled:opacity-50 hover:bg-blue-700"
