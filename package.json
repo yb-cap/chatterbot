@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "node prisma/seed_llm.js",
+    "postbuild": "node prisma/seed_llm.mjs",
     "postinstall": "prisma generate"
   },
   "dependencies": {
