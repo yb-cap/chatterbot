@@ -1,7 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 
-export default function ThreadChat({threadId, messages, onSignOut}) {
+export default function ThreadChat({threadId, messages}) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [chatMessages, setChatMessages] = useState(messages);
@@ -40,12 +40,6 @@ export default function ThreadChat({threadId, messages, onSignOut}) {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <div className="w-full max-w-2xl mx-auto bg-white shadow rounded relative p-6">
-        <button
-          onClick={onSignOut}
-          className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
-          Sign Out
-        </button>
         <h1 className="text-2xl font-bold mb-4">Chat Thread</h1>
         <div className="flex flex-col space-y-4 mb-4">
           {chatMessages.map((msg, idx) => (

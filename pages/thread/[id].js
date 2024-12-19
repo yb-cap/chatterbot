@@ -1,8 +1,9 @@
-import {useSession, signOut} from "next-auth/react";
+import {useSession} from "next-auth/react";
 import ThreadChat from "../../components/thread-chat";
 import {PrismaClient} from "@prisma/client";
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "../api/auth/[...nextauth]";
+import UserMenu from "../../components/user-menu";
 
 const prisma = new PrismaClient();
 
@@ -14,11 +15,13 @@ export default function ThreadPage({threadId, messages}) {
   }
 
   return (
-    <ThreadChat
-      threadId={threadId}
-      messages={messages}
-      onSignOut={signOut}
-    />
+    <div className="relative min-h-screen bg-gray-100">
+      <UserMenu user={session.user}/>
+      <ThreadChat
+        threadId={threadId}
+        messages={messages}
+      />
+    </div>
   );
 }
 
