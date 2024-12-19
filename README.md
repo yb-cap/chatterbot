@@ -85,7 +85,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to proceed
    - Persist user & auth-related models required for NextAuth to work
    - Store chat histories in a structured format for retrieval.
 
-## Extensions
+## Extensions / Improvements
 
 - Sidebar should be infinite scrolling, or; simpler, fixed number of threads and if more,
   navigate to a ChatThread index page which supports search
@@ -93,3 +93,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to proceed
 - Chat Streaming UX - the current chatbot interface waits for the entire response from the LLM Provider to be generated
   before presenting to the user, a streaming approach would reduce waiting time.
 - More responsive UI - the sidebar toggle in both mobile and compressed web views don't result in the ChatInput or UserMenu shifting to account for the expanded sidebar. This would require lifting the state/setter of whether the sidebarIsOpen to the parent component to be passed down to the sidebar and its sibling components in the view.
+- Better UX with errors - current suboptimal approach is to either redirect without a message or display "you need to sign in"
+- Prisma client instantiation can be refactored to a singleton
+- Session management can be done through some middleware
