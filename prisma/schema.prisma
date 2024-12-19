@@ -8,15 +8,16 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String          @unique
+  email         String       @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  threads       ChatThread[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 }
 
 model Account {
@@ -58,4 +59,30 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+model LlmModel {
+  id           String       @id @default(cuid())
+  name         String       @unique
+  display_name String
+  provider     String
+  threads      ChatThread[]
+  createdAt    DateTime     @default(now())
+}
 
+model ChatThread {
+  id         String        @id @default(cuid())
+  userId     String
+  user       User          @relation(fields: [userId], references: [id])
+  llmModelId String
+  llmModel   LlmModel      @relation(fields: [llmModelId], references: [id])
+  messages   ChatMessage[]
+  createdAt  DateTime      @default(now())
+}
+
+model ChatMessage {
+  id        String     @id @default(cuid())
+  threadId  String
+  thread    ChatThread @relation(fields: [threadId], references: [id])
+  role      String // 'user' or 'assistant'
+  content   String
+  createdAt DateTime   @default(now())
+}
