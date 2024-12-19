@@ -40,7 +40,7 @@ export default function ThreadChat({threadId, messages}) {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <div className="w-full max-w-2xl mx-auto bg-white shadow rounded relative p-6">
-        <h1 className="text-2xl font-bold mb-4">Chat Thread</h1>
+        <h1 className="text-2xl font-bold mb-4 text-gray-800">Chat Thread</h1>
         <div className="flex flex-col space-y-4 mb-4">
           {chatMessages.map((msg, idx) => (
             <div
@@ -56,7 +56,7 @@ export default function ThreadChat({threadId, messages}) {
           ))}
         </div>
         <textarea
-          className="w-full border p-2 rounded mb-4"
+          className="w-full border p-2 rounded mb-4 min-h-[120px] resize-y text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
           placeholder="Type your message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
