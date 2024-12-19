@@ -6,7 +6,14 @@ export default function UserMenu({user}) {
   return (
     <div className="absolute top-4 right-4 flex items-center gap-3">
       {user?.image && (
-        <Tooltip content={user?.name} placement="bottom">
+        <Tooltip
+          content={user?.name}
+          placement="bottom"
+          classNames={{
+            base: "bg-gray-900/90",
+            content: "text-gray-100 py-2 px-4 shadow-lg backdrop-blur-sm"
+          }}
+        >
           <div className="w-10 h-10 rounded-full overflow-hidden cursor-pointer">
             <Image
               src={user.image}
