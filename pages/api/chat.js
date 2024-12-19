@@ -23,7 +23,9 @@ export default async function handler(req, res) {
   let thread;
   if (!threadId) {
     //TODO: make this selectable, for now default to openai
-    const llmModel = await prisma.llmModel.findFirst();
+    const llmModel = await prisma.llmModel.findFirst({
+      where: {name: "gpt-3.5-turbo"}
+    });
 
     if (!llmModel) {
       return res.status(400).json({message: "LLM model not found"});
