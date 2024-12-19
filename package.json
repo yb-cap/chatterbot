@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --no-cache",
     "postbuild": "node prisma/seed_llm.mjs",
     "postinstall": "prisma generate"
   },
