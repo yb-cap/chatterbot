@@ -1,49 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [
-`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This project is a chatbot application built using a three-tier architecture to showcase a complete web application
+with authentication, data persistence, and an interactive user experience. The chatbot allows users to interact with AI
+language models (OpenAPI only for now), log their chat history, and access it later.
+The app is deployed on Vercel for scalability and ease of deployment.
 
 ## Getting Started
 
-First, run the development server:
+### Local
+
+Prereqs:
+
+* Postgres database
+* Google Cloud OAuth App
+* OpenAI account with credits available
+
+1. Clone the repo and install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Set up environment variables in `.env`:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```text
+DATABASE_URL=your-database-url
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+OPENAI_API_KEY=your-openai-api-key
+NEXTAUTH_SECRET=<generate in shell using openssl rand -base64 32>
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically
-optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run database migrations on connected DB:
 
-## Learn More
+```bash
+pnpm generate
+pnpm migrate dev --name init
+node prisma/seed_llm.mjs
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Start application:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions
-are welcome!
+Open [http://localhost:3000](http://localhost:3000) with your browser to proceed.
 
-## Deploy on Vercel
+## Architecture Design
 
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
+1. Presentation Tier (Client Layer): This is the user-facing layer where users interact with the chatbot.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for
-more details.
+   Technologies:
+    * Framework: Next.js - Pages Router / React
+    * Styling: TailwindCSS for responsive and polished UI
+
+   Responsibilities:
+    * Render a responsive chat interface.
+    * Handle user input and display chatbot responses.
+    * Manage client-side logic for authentication and session persistence.
+
+2. Application Tier (Server Layer): This layer processes requests from the client, communicates with the AI API, and
+   interacts with the database.
+   Technologies:
+    * Framework: Next.js - API Routes
+    * Authentication: NextAuth.js with Google SSO and Prisma Adapter
+
+   Responsibilities:
+    * Authenticate users via Google SSO or username/password.
+    * Process chat messages and send them to the AI API.
+    * Retrieve chat-related data models from the database and return it to the client.
+
+3. Data Tier (Database Layer): This layer stores user data, including authentication credentials and chat histories.
+
+   Technologies:
+    * Database: PostgreSQL
+    * ORM: Prisma
+
+   Responsibilities:
+    * Persist user & auth-related models required for NextAuth to work
+    * Store chat histories in a structured format for retrieval.
 
 ## Extensions
 
-* sidebar should be infinite scrolling or simpler; fixed number of threads and if more, navigate to a full thread index
-  page
-  which supports search
-* 
+* Sidebar should be infinite scrolling, or; simpler, fixed number of threads and if more,
+  navigate to a ChatThread index page which supports search
+* Choice of LLM Model - data models already designed to allow for this but would require UI/API changes
+* Chat Streaming UX - the current chatbot interface waits for the entire response from the LLM Provider to be generated
+  before presenting to the user, a streaming approach would reduce waiting time.
